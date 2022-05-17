@@ -39,10 +39,9 @@ while run :
         if event.type == pygame.QUIT :
             run = False
         if event.type == pygame.KEYDOWN :
-            # player.rect.move_ip(0,120)
             pass
 
-    print(player.in_air())
+    # print(player.in_air())
     player.gravity()
     win.fill((255,255,255))
     player_group.draw(win)
