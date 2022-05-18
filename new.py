@@ -26,7 +26,7 @@ class Player(pygame.sprite.Sprite) :
         self.mass = 1
     def movement(self) :
 
-        self.acceleration = vec(0,0)
+        self.acceleration = vec(0,0.5)
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_RIGHT] :
