@@ -8,7 +8,19 @@ HEIGHT = 720
 win = pygame.display.set_mode((WIDTH , HEIGHT))
 clock = pygame.time.Clock()
 border = pygame.Rect(0,0,WIDTH , HEIGHT)
+
+class Platform(pygame.sprite.Sprite) :
+    def __init__(self , x , y , w , h ):
+        super().__init__()
+        self.image = pygame.Surface((w , h))
+        self.image.fill((255,20,0))
+
+        self.rect = self.image.get_rect()
+        self.rect.update(x , y , w , h )
+
+
 class Player(pygame.sprite.Sprite) :
+    global Platforms
     def __init__(self) :
         super().__init__()
         self.image = pygame.Surface((50,50))
@@ -25,8 +37,10 @@ class Player(pygame.sprite.Sprite) :
         self.position = vec(640,360)
         self.mass = 1
     def movement(self) :
-
-        self.acceleration = vec(0,0.5)
+        if self.collision() :
+            self.acceleration = vec(0,0)
+        else :
+            self.acceleration = vec(0,0.1)
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_RIGHT] :
@@ -38,22 +52,30 @@ class Player(pygame.sprite.Sprite) :
         self.velocity += self.acceleration * dt
         self.position += self.velocity * dt + (self.acceleration) * (0.5 * dt * dt)
 
-        self.rect.center = self.position
+        bruh = self.position.y + 50
+        if bruh > HEIGHT :
+            # print("Ha")
+            self.velocity.y = 0
+            self.position.y = HEIGHT - 50
+        self.rect.topleft = self.position
+    def collision(self) :
 
-    def in_air(self) :
-        if player.rect.bottom >= border.bottom :
-            return False
-        else :
+        x = pygame.sprite.spritecollide(self , Platforms , dokill = False)
+        if x :
+            # print("X true")
+            # if self.position.y < x[0].rect.top :
+            self.position.y = x[0].rect.top - 50
+            self.velocity.y = 0
             return True
-    def gravity(self) :
-        if self.in_air() :
-            self.position.y += 10
-            self.rect.topleft = self.position
         else :
-            player.rect.bottom = HEIGHT
+            return False
 player = Player()
+platform = Platform(500 , 500 , 200 , 30)
 player_group = pygame.sprite.Group()
+Platforms = pygame.sprite.Group()
 player_group.add(player)
+Platforms.add(platform)
+
 
 run = True
 while run :
@@ -67,17 +89,12 @@ while run :
             print(player.acceleration)
             print(player.velocity)
             print(player.position)
+
             print("=" * 14)
-    # keys = pygame.key.get_pressed()
-    # # print(keys)
-    # if keys[pygame.K_LEFT] :
-    #     player.movement("left")
-    # if keys[pygame.K_RIGHT] :
-    #     player.movement("right")
-
-
-    # print(player.in_air())
+    # print(player.position.y , WIDTH)
     player.movement()
+    print(player.collision())
     win.fill((255,255,255))
     player_group.draw(win)
+    Platforms.draw(win)
     pygame.display.flip()
