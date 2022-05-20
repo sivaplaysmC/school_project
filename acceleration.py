@@ -53,7 +53,6 @@ while True:
 
 
     rect.midbottom = rect.topleft
-    print(rect.y , y_position)
     win.fill('white')
     pygame.draw.rect(win,'red',rect)
     pygame.display.flip()
