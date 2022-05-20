@@ -9,7 +9,7 @@ win = pygame.display.set_mode((WIDTH , HEIGHT))
 clock = pygame.time.Clock()
 border = pygame.Rect(0,0,WIDTH , HEIGHT)
 
-class Platform(pygame.sprite.Sprite ,) :
+class Platform(pygame.sprite.Sprite) :
     def __init__(self , x , y , w , h ):
         super().__init__()
         self.image = pygame.Surface((w , h))

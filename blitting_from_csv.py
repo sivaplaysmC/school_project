@@ -18,10 +18,11 @@ for i in x :
     blitter_x = 0
     for j in i :
         print(blitter_x , blitter_y)
-        if j == 29 :
-            win.blit(im1 , (blitter_x , blitter_y))
-        elif j == 7 :
-            win.blit(im2 , (blitter_x , blitter_y))
+        if j != -1 :
+            if j < 10 :
+                win.blit(pygame.image.load(r"G:\school_project\split_tiles\tile00"+str(j)+".png").convert_alpha() , (blitter_x , blitter_y))
+            elif j < 100 :
+                win.blit(pygame.image.load(r"G:\school_project\split_tiles\tile0"+str(j)+".png").convert_alpha() , (blitter_x , blitter_y))
         blitter_x += 16
     blitter_y += 16
 while run :
