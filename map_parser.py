@@ -10,4 +10,3 @@ def main():
     for j in x :
         returnable+=(eval(j.strip("\n")),)
     return returnable
-for x in main() : print(x , end = ",\n")
