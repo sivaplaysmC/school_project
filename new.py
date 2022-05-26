@@ -1,6 +1,6 @@
 import pygame , random
 from pygame import Vector2 as vec
-
+from copy import copy
 
 pygame.init()
 WIDTH = 1280
@@ -67,9 +67,15 @@ class Player(pygame.sprite.Sprite) :
 
         else :
             self.gravity()
-    def check_and_move(self , dx) :
+    def check_and_move(self , dx , dy) :
+        move_in_x , move_in_y = True , True
+        x_i , y_i = 1,1
+        while move_in_x :
+            if x_i <= dx :
+                y = self.rect.move(0,0)
+                for i in Platforms.getsprites : pass
 
-        ##  DUMBFUCK YOU HAVE TO ADD THE CHECK AND MOVE FUNCTIONALITY
+        ##  YOU HAVE TO ADD THE CHECK AND MOVE FUNCTIONALITY
         ##  ie , YOU HAVE TO MOVE ONE PIXEL IN X CHECK COLLISIONS ,
         ##  MOVE 1 PIXEL IN Y , CHECK COLLISIONS
         ##  TILL X AND Y MOVEMENT IS EQUAL TO PROVIDED PARAMS
@@ -82,11 +88,14 @@ player_group = pygame.sprite.Group()
 Platforms = pygame.sprite.Group()
 player_group.add(player)
 Platforms.add(platform , _platform)
-
-
+y = copy(player)
+print(player.rect)
+y.rect.move_ip(10,10)
+print(player.rect)
+print(id(player.rect) , id(y.rect) )
 run = True
 while run :
-    dt = (clock.tick(60) /1000) * 60
+    dt = (clock.tick(30) /1000) * 60
     for event in pygame.event.get() :
         # print(event)
         if event.type == pygame.QUIT :

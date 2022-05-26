@@ -40,6 +40,7 @@ while True:
     # if abs(x_acceleration) > 10 :
     x_acceleration += x_velocity * -0.025
     x_velocity += x_acceleration
+    # print(x_acceleration , x_velocity , x_position)
     x_position += x_velocity + 0.5 * x_acceleration
     rect.update(x_position , y_position , 50 , 50 )
     if y_position > 710 :
