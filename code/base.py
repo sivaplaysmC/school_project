@@ -29,6 +29,7 @@ class Entity(pygame.sprite.Sprite) :
         self.rect.y = 500
 
         self.position = vec(500,500)
+        self.delpos = vec(0,0)
         self.velocity = vec(0,0)
         self.acceleration = vec(0,0)
         self.do_gravity = True
@@ -59,9 +60,12 @@ class Entity(pygame.sprite.Sprite) :
         self.acceleration.x += self.velocity.x * -0.2
         self.velocity += self.acceleration * dt
         self.position += self.velocity *dt + ((self.acceleration *0.5) * (dt * dt))
-
+        
             # self.velocity.y = 0
         self.rect.topleft = self.position
+
+    def collision(self) :
+        if self.delpos >  
 run = True
 player = Entity()
 
