@@ -22,6 +22,16 @@ class Platform(pygame.sprite.Sprite) :
 
         self.rect = self.image.get_rect()
         self.rect.update(x , y , w , h )
+    def move(self ,x ,y , beginning , end) :
+        self.direction = 1 # 1 means right to left
+        if self.direction == 1 :
+            self.rect.move_ip(2, y)
+            if self.rect.x >= end :
+                self.direction = 0
+        if self.direction == 0 :
+            self.rect.move_ip(-2, y)
+            if self.rect.x <= beginning :
+                self.direction = 1 
 
 class Entity(pygame.sprite.Sprite) :
     def __init__(self):
@@ -43,10 +53,6 @@ class Entity(pygame.sprite.Sprite) :
 
     def move(self) :
 
-        # if self.position.y - (self.rect.h + 10) > 720 :
-        #     self.position.y = 720 - (self.rect.h + 10)
-        #     self.do_gravity = False
-
         if self.do_gravity :
             self.acceleration.y = 0.9
         else :
@@ -60,11 +66,6 @@ class Entity(pygame.sprite.Sprite) :
         if self.velocity.y == 0 :
             if keys[pygame.K_SPACE] :
                 self.velocity.y += -15
-        if self.position.y - (self.rect.h + 10) > 720 :
-            self.position.y = 720 - (self.rect.h + 11)
-            self.acceleration.y = 0
-        if self.acceleration.y < -self.max_acceleration :
-            self.acceleration.y = -self.max_acceleration
         self.acceleration.x += self.velocity.x * -0.2
         self.velocity += self.acceleration * dt
         self.delpos = self.velocity *dt + ((self.acceleration *0.5) * (dt * dt))
@@ -76,19 +77,6 @@ class Entity(pygame.sprite.Sprite) :
                 self.velocity.y = 0 
         self.rect.topleft = self.position
 
-    def collision(self , delpos) :
-        collision_list = pygame.sprite.spritecollide(self , platform_group , dokill=False )
-        if collision_list :
-            x = collision_list[0]
-            print(x.rect)
-            if self.delpos.x > 0 :
-                self.position.x = x.rect.left 
-            elif self.delpos.x < 0 :
-                self.position.x = x.rect.right 
-            if self.delpos.y > 0 :
-                self.position.y = x.rect.top
-            elif self.delpos.y < 0 :
-                self.position.y = x.rect.bottom
 
 run = True
 player = Entity()
@@ -97,7 +85,7 @@ platform1 = Platform(0,690,1280,30,(255,20,0))
 platform2 = Platform(200, 600, 100, 50, (255,20,0))
 platform3 = Platform(400, 500, 100, 50, (255,255,0))
 platform4 = Platform(180, 400, 100, 50, (0,255,0))
-platform5 = Platform(500, 300, 100, 50,(0,255,255))
+platform5 = Platform(400 , 400 , 100,50 , (0,0,0))
 
 
 
@@ -111,6 +99,7 @@ player_group.add(player)
 
 
 while run :
+    platform5.move(2,0,400 , 500)
     # clock.tick(120)
     dt = (clock.tick(120) /1000) * 60
 
@@ -124,4 +113,6 @@ while run :
         if event.type == pygame.QUIT :
             run = False
         if event.type == pygame.KEYDOWN and event.key == pygame.K_b :
+            
             print(player.rect.topleft , player.position , player.velocity , player.acceleration , sep = "\t")
+            print(platform5.rect.x , platform5.direction)
