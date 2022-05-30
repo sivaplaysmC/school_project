@@ -30,7 +30,7 @@ class Player(pygame.sprite.Sprite) :
         self.delpos.x = self.velocity.x + ( 0.5 * self.acceleration.x )
         self.position.x += self.velocity.x + ( 0.5 * self.acceleration.x )
         hits = pygame.sprite.spritecollide(player, platform_group, dokill)
-       
+ 
         # if pygame.sprite.spritecollide(player, , dokill)
     def move(self) :
         player.horizontal_movement()
