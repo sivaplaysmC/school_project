@@ -77,11 +77,21 @@ class Entity(pygame.sprite.Sprite) :
                 self.velocity.y = 0 
         self.rect.topleft = self.position
 
-
+def screen_movement():
+    if player.position.x > 1100 :
+        player.position.x = 1100
+        if abs(player.velocity.x) > 1 :
+            for i in platform_group.sprites() :
+                i.rect.move_ip(-3,0)
+    if player.position.x < 100 :
+        player.position.x = 100
+        if abs(player.velocity.x) > 1 :
+            for i in platform_group.sprites() :
+                i.rect.move_ip(3,0)
 run = True
 player = Entity()
 border = border(0,0,1280,720)
-platform1 = Platform(0,690,1280,30,(255,20,0))
+platform1 = Platform(-1280,690,5000,30,(255,20,0))
 platform2 = Platform(200, 600, 100, 50, (255,20,0))
 platform3 = Platform(400, 500, 100, 50, (255,255,0))
 platform4 = Platform(180, 400, 100, 50, (0,255,0))
@@ -104,7 +114,7 @@ while run :
     dt = (clock.tick(120) /1000) * 60
 
     player.move()
-
+    screen_movement()
     win.fill((255,255,255))
     platform_group.draw(win)
     player_group.draw(win)
