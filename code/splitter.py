@@ -1,29 +1,31 @@
-import pygame 
+import pygame
 
 pygame.init()
-clock = pygame.time.Clock()
 
-win = pygame.display.set_mode((800,800))
+win = pygame.display.set_mode((800,400))
 
 
-image = pygame.image.load(r"Run (32x32).png")
-ss = image.subsurface((0,0,32,32))
+image = pygame.image.load(r"g:\school_project\code\Run (32x32).png").convert_alpha()
 
-l = list()
+def splitr(image):
+    returnable = list()
+    for i in range(0,12*32 , 32) :
+        list.append(returnable, image.subsurface(i,0,32,32))
+    return returnable
 
-for i in range(0 , 12*32 , 32 ) :
-    l.append(image.subsurface(i,0,32,32))
+img_list = splitr(image)
+i = 0
 
-run = True 
-i = 0 
+run = True
 while run :
-    clock.tick(20)
-    for event in pygame.event.get():
+    for event in pygame.event.get() :
         if event.type == pygame.QUIT :
             run = False
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE :
+            i+=1 
+    if i >= 12 :
+        i = 0
     win.fill((255,255,255))
-    win.blit(ss, (200,200))
-    i = (i+1) % 12 
-    win.blit(l[i] , (300,300))
+    win.blit(img_list[i], (100,100))
     pygame.display.flip()
-print(len(l))
+    i += 1
