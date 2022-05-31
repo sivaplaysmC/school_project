@@ -1,4 +1,4 @@
-import pygame 
+import pygame
 
 pygame.init()
 
@@ -8,6 +8,8 @@ run = True
 
 while run == True :
     for event in pygame.event.get() :
+        # print(event)
         if event.type == pygame.QUIT :
             run = False
-
+    win.fill((0,0,153))
+    pygame.display.update()
