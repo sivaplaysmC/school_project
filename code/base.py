@@ -2,19 +2,31 @@ import pygame , random
 from pygame import Vector2 as vec
 from copy import copy
 
+def clamp(obg , renge) :
+    if obj > range :
+        return range 
+    if obj < renge :
+        return obj
+    return obg 
 pygame.init()
 WIDTH = 1280
 HEIGHT =640 
 win = pygame.display.set_mode((WIDTH , HEIGHT))
 clock = pygame.time.Clock()
-border = pygame.Rect(0,0,WIDTH , HEIGHT)
+### BACKGROUND 
 background = pygame.image.load("g:\school_project\sewer.png").convert_alpha()
 background = pygame.transform.scale(background, ( 3840 , 640 ) )
-back_ground_rect = background.subsurface(( 0,0,1280,640 ))
-class border(pygame.Rect) :
-    def __init__(self , x , y , w , h ) :
-        pass
- 
+bg_x = 0
+bg_y = 0 
+
+
+
+
+
+
+
+
+
 
 class Platform(pygame.sprite.Sprite) :
     def __init__(self , x , y , w , h , color):
@@ -74,39 +86,47 @@ class Entity(pygame.sprite.Sprite) :
         self.position += self.delpos
         hits = pygame.sprite.spritecollide(player,platform_group, False)
         if hits :
+            print(hits[0].rect)
             if self.position.y <= hits[0].rect.top :
                 self.position.y = hits[0].rect.top - 50  
                 self.velocity.y = 0 
         self.rect.topleft = self.position
 
 def screen_movement():
-    if player.position.x > 1100 :
-        player.position.x = 1100
-        if abs(player.velocity.x) > 1 :
-            # back_ground_rect = background.subsurface()
-            for i in platform_group.sprites() :
-                i.rect.move_ip(-3,0)
-    if player.position.x < 100 :
-        player.position.x = 100
-        if abs(player.velocity.x) > 1 :
-            for i in platform_group.sprites() :
-                i.rect.move_ip(3,0)
+    global bg_x
+    if player.position.x > 900:
+       player.position.x =900 
+       if -bg_x < 2560 :
+            bg_x -= player.delpos.x
+            # if abs(player.delpos.x) > 1 :
+            #     for i in platform_group.sprites() :
+            #         if id(i) != id(platform1) :
+            #             i.rect.x-=player.delpos.x
+    if player.position.x < 300 :
+        player.position.x =300 
+        if -bg_x > 0 :
+            bg_x -= player.delpos.x
+            # if abs(player.delpos.x) > 1 :
+            #     for i in platform_group.sprites() :
+            #         if id(i) != id(platform1) :
+            #             i.rect.x -= player.delpos.x
 run = True
 player = Entity()
-border = border(0,0,1280,720)
-platform1 = Platform(-1280,690,5000,30,(255,20,0))
+platform1 = Platform(-1280,610,5000,30,(255,20,0))
 platform2 = Platform(200, 600, 100, 50, (255,20,0))
 platform3 = Platform(400, 500, 100, 50, (255,255,0))
 platform4 = Platform(180, 400, 100, 50, (0,255,0))
 platform5 = Platform(400 , 400 , 100,50 , (0,0,0))
-
+platform6 = Platform(2000, 500, 100, 50, (255,255,255))
 
 
 
 
 player_group = pygame.sprite.Group()
 platform_group = pygame.sprite.Group()
-platform_group.add(platform1,platform2,platform3,platform4,platform5)
+baseplatform = pygame.sprite.Group()
+# baseplatform.add(platform1)
+platform_group.add(platform1,platform2,platform3,platform4,platform5,platform6)
 player_group.add(player)
 
 
@@ -119,8 +139,8 @@ while run :
     player.move()
     screen_movement()
     win.fill((255,255,255))
-    win.blit(background , ( 0,0 ))
-    platform_group.draw(win)
+    win.blit(background , ( bg_x,0 ))
+    platform_group.draw(background)
     player_group.draw(win)
     pygame.display.flip()
     for event in pygame.event.get() :
@@ -129,4 +149,4 @@ while run :
         if event.type == pygame.KEYDOWN and event.key == pygame.K_b :
             
             print(player.rect.topleft , player.position , player.velocity , player.acceleration , sep = "\t")
-            print(platform5.rect.x , platform5.direction)
+            print(bg_x)
