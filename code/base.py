@@ -4,11 +4,13 @@ from copy import copy
 
 pygame.init()
 WIDTH = 1280
-HEIGHT = 720
+HEIGHT =640 
 win = pygame.display.set_mode((WIDTH , HEIGHT))
 clock = pygame.time.Clock()
 border = pygame.Rect(0,0,WIDTH , HEIGHT)
-
+background = pygame.image.load("g:\school_project\sewer.png").convert_alpha()
+background = pygame.transform.scale(background, ( 3840 , 640 ) )
+back_ground_rect = background.subsurface(( 0,0,1280,640 ))
 class border(pygame.Rect) :
     def __init__(self , x , y , w , h ) :
         pass
@@ -81,6 +83,7 @@ def screen_movement():
     if player.position.x > 1100 :
         player.position.x = 1100
         if abs(player.velocity.x) > 1 :
+            # back_ground_rect = background.subsurface()
             for i in platform_group.sprites() :
                 i.rect.move_ip(-3,0)
     if player.position.x < 100 :
@@ -116,6 +119,7 @@ while run :
     player.move()
     screen_movement()
     win.fill((255,255,255))
+    win.blit(background , ( 0,0 ))
     platform_group.draw(win)
     player_group.draw(win)
     pygame.display.flip()

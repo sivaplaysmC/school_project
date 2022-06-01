@@ -23,9 +23,11 @@ while run :
             run = False
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE :
             i+=1 
-    if i >= 12 :
+    if i >= 36 :
         i = 0
     win.fill((255,255,255))
-    win.blit(img_list[i], (100,100))
+    win.blit(img_list[i // 3 ], (100,100))
+        
     pygame.display.flip()
     i += 1
+    
