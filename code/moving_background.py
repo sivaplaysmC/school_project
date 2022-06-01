@@ -9,7 +9,7 @@ def clamp(obj , range_) :
     
 
 
-FPS = 30
+FPS = 120
 screen = pygame.display.set_mode((640 , 640))
 bg = pygame.image.load(r'g:\school_project\sewer.png').convert_alpha()
 bg = pygame.transform.scale(bg, ( 3840,640 ))
