@@ -33,11 +33,11 @@ while True:
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
-        bg_x -= 10 * delta_time
-    if keys[pygame.K_RIGHT]:
         bg_x += 10 * delta_time
+    if keys[pygame.K_RIGHT]:
+        bg_x -= 10 * delta_time
     bg_y = 0
     bg_x = clamp(bg_x, ( 0,bg_size[0] - screen_size[0]))
 
-    screen.blit(bg, (-bg_x, -bg_y))
+    screen.blit(bg, (bg_x, bg_y))
     pygame.display.flip()
