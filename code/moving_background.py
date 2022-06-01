@@ -1,6 +1,15 @@
 import pygame
 
-FPS = 60
+def clamp(obj , range_) :
+    if obj < range_[0]  : 
+        return range_[0]
+    if obj > range_[1] :
+        return range_[1]
+    return obj
+    
+
+
+FPS = 30
 screen = pygame.display.set_mode((640 , 640))
 bg = pygame.image.load(r'g:\school_project\sewer.png').convert_alpha()
 bg = pygame.transform.scale(bg, ( 3840,640 ))
@@ -11,9 +20,9 @@ bg_x = 0     #(bg_size[0]-screen_size[0]) // 2
 bg_y = 0    #(bg_size[1]-screen_size[1]) // 2
 
 clock = pygame.time.Clock()
-
+delta_time_clock = pygame.time.Clock()
 while True:
-    clock.tick(FPS)
+    delta_time = delta_time_clock.tick(FPS) * 0.001 * 60 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
@@ -24,17 +33,11 @@ while True:
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
-        bg_x -= 10
+        bg_x -= 10 * delta_time
     if keys[pygame.K_RIGHT]:
-        bg_x += 10
-    if keys[pygame.K_UP]:
-        bg_y -= 10
-    if keys[pygame.K_DOWN]:
-        bg_y += 10
-    # print(bg_size , screen_size , sep="\n")
-    bg_x = max(0, min(bg_size[0]-screen_size[0], bg_x))
-    # print(max(0, min(bg_size[0]-screen_size[0], bg_x)))
-    bg_y = max(0, min(bg_size[1]-screen_size[1], bg_y))
+        bg_x += 10 * delta_time
+    bg_y = 0
+    bg_x = clamp(bg_x, ( 0,bg_size[0] - screen_size[0]))
 
     screen.blit(bg, (-bg_x, -bg_y))
     pygame.display.flip()
