@@ -9,6 +9,11 @@ win = pygame.display.set_mode((WIDTH , HEIGHT))
 clock = pygame.time.Clock()
 border = pygame.Rect(0,0,WIDTH , HEIGHT)
 
+
+def get_image(image , metadata) :
+
+
+
 class border(pygame.Rect) :
     def __init__(self , x , y , w , h ) :
         pass
@@ -28,10 +33,12 @@ class Entity(pygame.sprite.Sprite) :
         super().__init__()
         self.image = pygame.Surface((50,50))
         self.image.fill((0,55,255))
+        self.px , self.py = 0 , 0 
 
         self.rect = self.image.get_rect()
         self.rect.x = 500
         self.rect.y = 500
+        self.hitx , self.hity = list() , list()
 
         self.position = vec(500,500)
         self.delpos = vec(0,0)
@@ -43,7 +50,7 @@ class Entity(pygame.sprite.Sprite) :
 
     def get_input(self) :
 
-        # self.velocity.x , self.velocity.y = 0 ,0
+        # self.velocity.y = 0 
         self.acceleration.x , self.acceleration.y =  0 , 0
         # self.delpos.x , self.delpos.y  = 0 , 0 
         keys = pygame.key.get_pressed()
@@ -51,14 +58,17 @@ class Entity(pygame.sprite.Sprite) :
             self.acceleration.x += 2
         if keys[pygame.K_LEFT] :
             self.acceleration.x -= 2
+        
         if keys[pygame.K_SPACE] and self.velocity.y == 0 :
-            self.velocity.y -= 5
+            print("colliderect")
+            self.velocity.y -= 9
 
     def horizontal_movement(self) :
-        self.acceleration.x += self.velocity.x * -.70
+        self.acceleration.x += self.velocity.x * -.40
         self.velocity.x += self.acceleration.x * dt
         self.delpos.x = self.velocity.x *dt + ((self.acceleration.x *0.5) * (dt * dt))
-        self.rect.x += self.delpos.x
+        self.px = self.rect.x + self.delpos.x
+        self.rect.x = round(self.px)
         hitx = pygame.sprite.spritecollide(player,platform_group, False)
         if hitx :
             if self.delpos.x > 0 :    
@@ -67,7 +77,7 @@ class Entity(pygame.sprite.Sprite) :
                 self.rect.left = hitx[0].rect.right
 
     def vertical_movement(self) :
-        self.acceleration.y = 0.1
+        self.acceleration.y = 0.4
         self.velocity.y += self.acceleration.y
         self.delpos.y = self.velocity.y + (0.5 * self.acceleration.y)
         self.rect.y += self.delpos.y
@@ -77,12 +87,14 @@ class Entity(pygame.sprite.Sprite) :
                 self.velocity.y = 0
                 self.rect.bottom = hity[0].rect.top
             if self.delpos.y < 0 :
-                self.velocity.y = 0 
+                # self.velocity.y *= -1 
                 self.rect.top = hity[0].rect.bottom
     def move(self) :
         self.get_input()
         self.horizontal_movement()
         self.vertical_movement()
+    def debug(self) :
+        print(self.rect.topleft , self.position , self.velocity , self.acceleration , sep = "\t")
 
 run = True
 player = Entity()
@@ -107,6 +119,7 @@ player_group.add(player)
 while run :
     # clock.tick(120)
     dt = (clock.tick(60) /1000) * 60
+    player.debug()
 
     player.move()
 
@@ -117,5 +130,5 @@ while run :
     for event in pygame.event.get() :
         if event.type == pygame.QUIT :
             run = False
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_b :
-            print(player.rect.topleft , player.position , player.velocity , player.acceleration , sep = "\t")
+        # if event.type == pygame.KEYDOWN and event.key == pygame.K_b :
+        #     print(player.rect.topleft , player.position , player.velocity , player.acceleration , sep = "\t")
