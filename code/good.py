@@ -10,7 +10,7 @@ clock = pygame.time.Clock()
 border = pygame.Rect(0,0,WIDTH , HEIGHT)
 
 
-def get_image(image , metadata) :
+# def get_image(image , metadata) :
 
 
 
@@ -64,7 +64,7 @@ class Entity(pygame.sprite.Sprite) :
             self.velocity.y -= 9
 
     def horizontal_movement(self) :
-        self.acceleration.x += self.velocity.x * -.40
+        self.acceleration.x += self.velocity.x * -.70
         self.velocity.x += self.acceleration.x * dt
         self.delpos.x = self.velocity.x *dt + ((self.acceleration.x *0.5) * (dt * dt))
         self.px = self.rect.x + self.delpos.x
@@ -100,10 +100,10 @@ run = True
 player = Entity()
 border = border(0,0,1280,720)
 platform1 = Platform(0,690,1280,30,(255,20,0))
-platform2 = Platform(200, 500, 100, 50, (255,20,0))
+platform2 = Platform(200, 600, 100, 50, (255,20,0))
 # platform3 = Platform(400, 500, 100, 50, (255,255,0))
-platform4 = Platform(180, 400, 100, 50, (0,255,0))
-platform5 = Platform(700, 500, 100, 50,(0,255,255))
+platform4 = Platform(180, 500, 100, 50, (0,255,0))
+platform5 = Platform(700, 600, 100, 50,(0,255,255))
 
 
 
