@@ -2,6 +2,8 @@ import pygame , random
 from pygame import Vector2 as vec
 from copy import copy
 
+pygame.init()
+
 def clamp(obg , renge) :
     if obj > range :
         return range 
@@ -17,14 +19,10 @@ clock = pygame.time.Clock()
 background = pygame.image.load("g:\school_project\sewer.png").convert_alpha()
 background = pygame.transform.scale(background, ( 3840 , 640 ) )
 bg_x = 0
-bg_y = 0 
+bg_y = 0
 
-
-
-
-
-
-
+background_surface = pygame.Surface((3840,640))
+background_surface.blit(background , (0,0))
 
 
 
@@ -67,29 +65,39 @@ class Entity(pygame.sprite.Sprite) :
 
     def move(self) :
 
-        if self.do_gravity :
-            self.acceleration.y = 0.9
-        else :
-            self.acceleration.y = 0
-        self.acceleration.x = 0
+        self.delpos.x = 0
+        self.acceleration.x = 0 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_RIGHT] :
             self.acceleration.x +=3
         if keys[pygame.K_LEFT] :
             self.acceleration.x -= 3
-        if self.velocity.y == 0 :
+        self.acceleration.x += self.velocity.x * -0.2
+        self.velocity.x += self.acceleration.x * dt
+        self.delpos.x = self.velocity.x *dt + ((self.acceleration.x *0.5) * (dt * dt))
+        self.rect.x += self.delpos.x
+        hitx = pygame.sprite.spritecollide(player, platform_group, False)
+        if hitx :
+            if self.delpos.x > 0 :
+                self.rect.right = hitx[0].rect.left
+            if self.delpos.x < 0 :
+                self.rect.left = self.rect.right
+        self.delpos.y = 0
+        self.acceleration.y = 1.5
+        keys = pygame.key.get_pressed()
+        if abs( self.velocity.y ) <= 0.5 :
             if keys[pygame.K_SPACE] :
                 self.velocity.y += -15
-        self.acceleration.x += self.velocity.x * -0.2
-        self.velocity += self.acceleration * dt
-        self.delpos = self.velocity *dt + ((self.acceleration *0.5) * (dt * dt))
-        self.position += self.delpos
-        hits = pygame.sprite.spritecollide(player,platform_group, False)
-        if hits :
-            print(hits[0].rect)
-            if self.position.y <= hits[0].rect.top :
-                self.position.y = hits[0].rect.top - 50  
+        hity = pygame.sprite.spritecollide(player,platform_group, False)
+        if hity :
+            print(hity[0].rect)
+            if self.position.y <= hity[0].rect.top :
+                self.position.y = hity[0].rect.top - 50  
                 self.velocity.y = 0 
+        self.velocity.y += self.acceleration.y * dt
+        self.delpos.y = self.velocity.y *dt + ((self.acceleration.y *0.5) * (dt * dt))
+        self.rect.y += self.delpos.y
+
         self.rect.topleft = self.position
 
 def screen_movement():
@@ -97,19 +105,19 @@ def screen_movement():
     if player.position.x > 900:
        player.position.x =900 
        if -bg_x < 2560 :
-            bg_x -= player.delpos.x
-            # if abs(player.delpos.x) > 1 :
-            #     for i in platform_group.sprites() :
-            #         if id(i) != id(platform1) :
-            #             i.rect.x-=player.delpos.x
+            bg_x -= player.velocity.x
+            if abs(player.velocity.x) > 1 :
+                for i in platform_group.sprites() :
+                    if id(i) != id(platform1) :
+                        i.rect.x-=player.velocity.x
     if player.position.x < 300 :
         player.position.x =300 
         if -bg_x > 0 :
-            bg_x -= player.delpos.x
-            # if abs(player.delpos.x) > 1 :
-            #     for i in platform_group.sprites() :
-            #         if id(i) != id(platform1) :
-            #             i.rect.x -= player.delpos.x
+            bg_x -= player.velocity.x
+            if abs(player.velocity.x) > 1 :
+                for i in platform_group.sprites() :
+                    if id(i) != id(platform1) :
+                        i.rect.x -= player.velocity.x
 run = True
 player = Entity()
 platform1 = Platform(-1280,610,5000,30,(255,20,0))
@@ -139,11 +147,13 @@ while run :
     player.move()
     screen_movement()
     win.fill((255,255,255))
-    win.blit(background , ( bg_x,0 ))
-    platform_group.draw(background)
+    win.blit(background_surface , ( bg_x,0 ))
+    background_surface.blit(background , (0,0))
+    for i in platform_group.sprites():
+        background_surface.blit(i.image, i.rect.topleft)
     player_group.draw(win)
     pygame.display.flip()
-    for event in pygame.event.get() :
+    for event in pygame. event.get() :
         if event.type == pygame.QUIT :
             run = False
         if event.type == pygame.KEYDOWN and event.key == pygame.K_b :
