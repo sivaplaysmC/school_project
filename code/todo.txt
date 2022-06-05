@@ -1,8 +1,0 @@
-we should have a display surface only tht will be displayed
-we sould have a larger main surface in which all platforms will be blitted and everytime 
-a player moves beyond the limit we wil use the pygame.rect.subsurface to move rightside
-this way we can overcome the damn problem of moving rect objects
-(important dont think the above line is wrong as the coloured platforms are not moving
-what is used ther is a workaround . What i have done is i have drawn the platforms on 
-the background surface which results in this illusion ^_^)
-
