@@ -104,7 +104,7 @@ class Entity(pygame.sprite.Sprite) :
         self.rect.x = round(self.px)
         hitx = pygame.sprite.spritecollide(self,self.collidelist, False)
         if hitx :
-            if hity[0].name in player_group.sprites() :
+            if hitx[0].name in player_group.sprites() :
                 self.velocity.x += hity[0].velocity.x
             if hitx[0].name == "platform6" :
                 self.rect.move_ip(hitx[0].velocity, 0)
