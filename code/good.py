@@ -49,7 +49,7 @@ class Platform(pygame.sprite.Sprite) :
         self.x_max = x_max
         self.x_min = x_min
         self.velocity = velocity
-        print(self.rect.left <= self.x_min , self.rect.right >= self.x_min)
+        # print(self.rect.left <= self.x_min , self.rect.right >= self.x_min)
         if self.rect.left <= self.x_min or self.rect.right >= self.x_min  :
             self.velocity *= -1
         self.rect.move_ip(self.velocity, 0)
@@ -57,7 +57,7 @@ class Entity(pygame.sprite.Sprite) :
     def __init__(self , color):
         super().__init__()
         self.color = color
-        self.image = pygame.Surface((50,50))
+        self.image = pygame.Surface((30,30))
         self.image.fill(self.color)
         self.px , self.py = 0 , 0 
 
@@ -104,8 +104,11 @@ class Entity(pygame.sprite.Sprite) :
         self.rect.x = round(self.px)
         hitx = pygame.sprite.spritecollide(self,self.collidelist, False)
         if hitx :
-            if hitx[0].name in player_group.sprites() :
-                self.velocity.x += hity[0].velocity.x
+
+            ## Warning : The player-player collision part has been removed and no longer will be implemented
+            # if hitx[0].name in player_group.sprites() :
+            #     print("hoho")
+                # hitx[0].velocity.x =  self.velocity.x
             if hitx[0].name == "platform6" :
                 self.rect.move_ip(hitx[0].velocity, 0)
             if self.delpos.x > 0 :    
@@ -121,8 +124,9 @@ class Entity(pygame.sprite.Sprite) :
         self.rect.y += self.delpos.y
         hity = pygame.sprite.spritecollide(self, self.collidelist, False)
         if hity :
-            if hity[0].name in player_group.sprites() :
-                self.velocity.y += hity[0].velocity.y
+            ## Warning : The player-player collision part has been removed and no longer will be implemented
+            # if hity[0].name in player_group.sprites() :
+            #      hity[0].velocity.y += self.velocity.y
             if self.delpos.y > 0 :
                 self.velocity.y = 0
                 self.rect.bottom = hity[0].rect.top
@@ -184,5 +188,11 @@ while run :
         
         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE :
             pause()
-        # if event.type == pygame.KEYDOWN and event.key == pygame.K_b :
-        #     print(player.rect.topleft , player.position , player.velocity , player.acceleration , sep = "\t")
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_b :
+            print("Player1")
+            print(pl.rect.topleft , pl.position , pl.velocity , pl.acceleration , sep = "\t")
+            print("Player2")
+            print(player.rect.topleft , player.position , player.velocity , player.acceleration , sep = "\t")
+        if event.type == pygame.MOUSEBUTTONDOWN :
+            print(pygame.mouse.get_pos())
+
