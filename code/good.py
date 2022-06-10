@@ -32,7 +32,8 @@ def pause() :
                 paused = False
             if event.type == pygame.QUIT :
                 paused = False
-                # pygame.quit()
+                pygame.quit()
+                raise SystemExit(0)
                 run = False
         
 
@@ -63,7 +64,6 @@ class Entity(pygame.sprite.Sprite) :
 
         self.collidelist = pygame.sprite.Group()
         self.name = str() 
-        
 
         self.move_right_key = pygame.K_RIGHT
         self.move_left_key  = pygame.K_LEFT
@@ -89,15 +89,19 @@ class Entity(pygame.sprite.Sprite) :
         # self.delpos.x , self.delpos.y  = 0 , 0 
         keys = pygame.key.get_pressed()
         if keys[self.move_right_key] :
-            self.acceleration.x += 1
+            self.acceleration.x += 0.8
         if keys[self.move_left_key] :
-            self.acceleration.x -= 1
+            self.acceleration.x -= 0.8
         if keys[self.jump_key] and self.velocity.y == 0 :
             # print("colliderect")
             self.velocity.y -= 9
+        # for event in pygame.event.get() :
+        #     if event.type == pygame.KEYDOWN and event.key == self.jump_key and self.velocity == 0 :
+        #         print(self.name , "jumped")
+        #         self.velocity.y -= 9
 
     def horizontal_movement(self) :
-        self.acceleration.x += self.velocity.x * -.10
+        self.acceleration.x += self.velocity.x * -.50
         self.velocity.x += self.acceleration.x * dt
         self.delpos.x = self.velocity.x *dt + ((self.acceleration.x *0.5) * (dt * dt))
         self.px = self.rect.x + self.delpos.x
@@ -106,11 +110,14 @@ class Entity(pygame.sprite.Sprite) :
         if hitx :
 
             ## Warning : The player-player collision part has been removed and no longer will be implemented
-            # if hitx[0].name in player_group.sprites() :
-            #     print("hoho")
-                # hitx[0].velocity.x =  self.velocity.x
-            if hitx[0].name == "platform6" :
-                self.rect.move_ip(hitx[0].velocity, 0)
+            ## Nah No error can stop siva from implementing siva's ideas in his own game 
+            ## where else will he add them ??
+            if hitx[0].name == self.other_player_name : 
+                # print("hoho")
+                hitx[0].rect.move_ip(self.delpos.x , 0)
+                self.rect.x = hitx[0].rect.left
+            # if hitx[0].name == "platform6" :
+            #     self.rect.move_ip(hitx[0].velocity, 0)
             if self.delpos.x > 0 :    
                 self.rect.right = hitx[0].rect.left
             if self.delpos.x < 0 :    
@@ -131,7 +138,7 @@ class Entity(pygame.sprite.Sprite) :
                 self.velocity.y = 0
                 self.rect.bottom = hity[0].rect.top
             if self.delpos.y < 0 :
-                # self.velocity.y *= -1 
+                self.velocity.y *= -0.1
                 self.rect.top = hity[0].rect.bottom
     def move(self) :
         self.get_input()
@@ -144,11 +151,13 @@ run = True
 player = Entity("blue")
 player.name = "Player1"
 player.jump_key = pygame.K_UP
+player.other_player_name = "Player2"
 pl = Entity("red")
 pl.name = "Player2"
 pl.move_right_key = pygame.K_d
 pl.move_left_key = pygame.K_a
 pl.jump_key = pygame.K_w
+pl.other_player_name = "Player1"
 border = border(-1280,0,1280*2,720)
 platform1 = Platform(-1280,690,1280*5,30,(255,20,0))
 platform2 = Platform(200, 600, 100, 50, (255,20,0))
@@ -183,6 +192,8 @@ while run :
     pygame.display.flip()
     for event in pygame.event.get() :
         if event.type == pygame.QUIT :
+            pygame.quit()
+            raise SystemExit(0)
             run = False
             pygame.quit()
         
