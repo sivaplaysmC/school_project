@@ -2,6 +2,8 @@ import pygame , random
 from pygame import Vector2 as vec
 from copy import copy
 
+
+
 pygame.init()
 WIDTH = 1280
 HEIGHT = 720
@@ -34,7 +36,6 @@ def pause() :
                 paused = False
                 pygame.quit()
                 raise SystemExit(0)
-                run = False
         
 
 class Platform(pygame.sprite.Sprite) :
@@ -194,8 +195,6 @@ while run :
         if event.type == pygame.QUIT :
             pygame.quit()
             raise SystemExit(0)
-            run = False
-            pygame.quit()
         
         if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE :
             pause()

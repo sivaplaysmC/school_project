@@ -1,4 +1,5 @@
-import pygame , random
+import blitting_text
+import pygame , random 
 from pygame import Vector2 as vec
 from copy import copy
 
@@ -13,19 +14,36 @@ border = pygame.Rect(0,0,WIDTH , HEIGHT)
 # def get_image(image , metadata) :
 
 
+pause_screen = pygame.image.load(r"pause_menu.png").convert_alpha()
+command_console_screen =  pygame.image.load(r"console.png").convert_alpha()
+
 
 class border(pygame.Rect) :
     def __init__(self , x , y , w , h ) :
         pass
 paused = False
+command_console = False
+def command_console() :
+    command_console = True
+    
+    win.blit(command_console_screen, (0,0))
+    while command_console :
+        pygame.display.flip()
+        for event in pygame.event.get() :
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_BACKQUOTE:
+                command_console = False
+            if event.type == pygame.QUIT :
+                command_console = False
+                pygame.quit()
+                raise SystemExit(0)
+    blitting_text.main(( 400,500 ))
+        
+
 def pause() :
-    # global paused , run
-    # for event in pygame.event.get():
-    #     if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
     paused = True
             
+    win.blit(pause_screen, (0,0))
     while paused :
-        win.fill((0,0,0))
         pygame.display.flip()
         for event in pygame.event.get() :
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
@@ -101,6 +119,8 @@ class Entity(pygame.sprite.Sprite) :
         #         self.velocity.y -= 9
 
     def horizontal_movement(self) :
+        if self.velocity.x > 1.6 :
+            self.velocity.x = 1.6
         self.acceleration.x += self.velocity.x * -.50
         self.velocity.x += self.acceleration.x * dt
         self.delpos.x = self.velocity.x *dt + ((self.acceleration.x *0.5) * (dt * dt))
@@ -178,7 +198,6 @@ pl.collidelist.add(player , *platform_group.sprites())
 
 
 while run :
-    # clock.tick(120)
     dt = (clock.tick(60) /1000) * 60
     # player.debug()
 
@@ -191,14 +210,20 @@ while run :
     player_group.draw(win)
     pygame.display.flip()
     for event in pygame.event.get() :
+        
         if event.type == pygame.QUIT :
             pygame.quit()
             raise SystemExit(0)
             run = False
             pygame.quit()
         
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE :
-            pause()
+        if event.type == pygame.KEYDOWN  :
+            if event.unicode != "":
+                print(event.unicode , end = " ")  
+            if event.key == pygame.K_BACKQUOTE :
+                command_console()
+            if event.key == pygame.K_ESCAPE :
+                pause()
         if event.type == pygame.KEYDOWN and event.key == pygame.K_b :
             print("Player1")
             print(pl.rect.topleft , pl.position , pl.velocity , pl.acceleration , sep = "\t")
