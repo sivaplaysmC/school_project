@@ -20,7 +20,7 @@ class Platform(pygame.sprite.Sprite) :
         self.rect.move_ip(self.velocity, 0)
         
 class Entity(pygame.sprite.Sprite) :
-    def __init__(self , color,dt):
+    def __init__(self , color):
         super().__init__()
         self.color = color
         self.image = pygame.Surface((30,30))
@@ -65,7 +65,7 @@ class Entity(pygame.sprite.Sprite) :
         #         print(self.name , "jumped")
         #         self.velocity.y -= 9
 
-    def horizontal_movement(self) :
+    def horizontal_movement(self,dt) :
         if self.velocity.x > 1.6 :
             self.velocity.x = 1.6
         self.acceleration.x += self.velocity.x * -.50
@@ -88,7 +88,7 @@ class Entity(pygame.sprite.Sprite) :
             if self.delpos.x < 0 :    
                 self.rect.left = hitx[0].rect.right
 
-    def vertical_movement(self) :
+    def vertical_movement(self,dt) :
         global player_group
         self.acceleration.y = 0.4
         self.velocity.y += self.acceleration.y
@@ -105,9 +105,10 @@ class Entity(pygame.sprite.Sprite) :
             if self.delpos.y < 0 :
                 self.velocity.y *= -0.1
                 self.rect.top = hity[0].rect.bottom
-    def move(self) :
+    def move(self,dt) :
+        """ Do Some Movement ^_^  """
         self.get_input()
-        self.horizontal_movement()
-        self.vertical_movement()
+        self.horizontal_movement(dt)
+        self.vertical_movement(dt)
     def debug(self) :
         print(self.rect.topleft , self.position , self.velocity , self.acceleration , sep = "\t")
