@@ -10,14 +10,6 @@ class Platform(pygame.sprite.Sprite) :
 
         self.rect = self.image.get_rect()
         self.rect.update(x , y , w , h )
-    def move(self ,  x_min , x_max , velocity) :
-        self.x_max = x_max
-        self.x_min = x_min
-        self.velocity = velocity
-        # print(self.rect.left <= self.x_min , self.rect.right >= self.x_min)
-        if self.rect.left <= self.x_min or self.rect.right >= self.x_min  :
-            self.velocity *= -1
-        self.rect.move_ip(self.velocity, 0)
         
 class Entity(pygame.sprite.Sprite) :
     def __init__(self , color):
@@ -26,9 +18,10 @@ class Entity(pygame.sprite.Sprite) :
         self.image = pygame.Surface((30,30))
         self.image.fill(self.color)
         self.px , self.py = 0 , 0 
+        self.name = str() 
+        self.other_player_name = str()
 
         self.collidelist = pygame.sprite.Group()
-        self.name = str() 
 
         self.move_right_key = pygame.K_RIGHT
         self.move_left_key  = pygame.K_LEFT

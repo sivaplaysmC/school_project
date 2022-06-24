@@ -70,7 +70,7 @@ Player2.move_right_key = pygame.K_d
 Player2.move_left_key = pygame.K_a
 Player2.jump_key = pygame.K_w
 Player2.other_player_name = "Player1"
-border = border(-1280,0,1280*2,720)
+# border = border(-1280,0,1280*2,720)
 #platform1 = Platform(-1280,690,1280*5,30,(255,20,0))
 #platform2 = Platform(200, 600, 100, 50, (255,20,0))
 #platform3 = Platform(400, 500, 100, 50, (255,255,0))
@@ -104,8 +104,7 @@ while run :
         if event.type == pygame.QUIT :
             pygame.quit()
             raise SystemExit(0)
-            run = False
-            pygame.quit()
+       
         
         if event.type == pygame.KEYDOWN  :
             if event.key == pygame.K_BACKQUOTE :
