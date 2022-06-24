@@ -1,4 +1,3 @@
-
 # import blitting_text
 import pygame 
 from reading_json import rect_list
