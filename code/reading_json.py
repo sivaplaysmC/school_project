@@ -5,5 +5,5 @@ with open(r"haa.json") as h :
 rect_list = list()
 for i in x["rects"] :
     j = pygame.Rect(round( i["x"] ),round(i["y"]),round(i["width"]) , round(i["height"]))
-    rect_list.append([j,i["color"]])
+    rect_list.append(j)
 

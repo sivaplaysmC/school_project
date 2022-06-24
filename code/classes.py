@@ -89,13 +89,13 @@ class Entity(pygame.sprite.Sprite) :
                 self.rect.left = hitx[0].rect.right
 
     def vertical_movement(self,dt) :
-        global player_group
         self.acceleration.y = 0.4
         self.velocity.y += self.acceleration.y
         self.delpos.y = self.velocity.y + (0.5 * self.acceleration.y)
         self.rect.y += self.delpos.y
         hity = pygame.sprite.spritecollide(self, self.collidelist, False)
         if hity :
+            ## Lol i added the player-player collsion somehow 
             ## Warning : The player-player collision part has been removed and no longer will be implemented
             # if hity[0].name in player_group.sprites() :
             #      hity[0].velocity.y += self.velocity.y

@@ -3,9 +3,12 @@ import pygame
 
 pygame.init()
 
-win = pygame.display.set_mode((1408,736))
+win = pygame.Surface((1408,736))
+
 win.fill("white")
+print(rect_list)
 for haha in rect_list :
+    print(haha)
     win.blit(pygame.Surface((haha.w,haha.h)),(haha.x,haha.y))
 while True :
     for event in pygame.event.get() :
