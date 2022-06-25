@@ -1,63 +1,18 @@
 # import blitting_text
-import pygame 
+import pygame
+from pygame.constants import RESIZABLE 
 from reading_json import rect_list
-from classes import Entity , Platform
 pygame.init()
+DISPLAY_WIDTH = 1280
+DISPLAY_HEIGHT = 720
 WIDTH = 1408
 HEIGHT = 736
-win = pygame.display.set_mode((WIDTH , HEIGHT))
+hoho = pygame.display.set_mode((1280,700) , RESIZABLE)
+win = pygame.Surface((WIDTH , HEIGHT))
 clock = pygame.time.Clock()
-
-pause_screen = pygame.image.load(r"pause_menu.png").convert_alpha()
-command_console_screen =  pygame.image.load(r"console.png").convert_alpha()
+from classes_and_funcs import Entity , Platform , command_console , pause
 
 
-class border(pygame.Rect) :
-    def __init__(self , x , y , w , h ) :
-        pass
-def command_console() :
-    comm = True
-    string = str()
-            
-    font = pygame.font.Font(None, 50)
-    
-    while comm :
-        for event in pygame.event.get() :
-            if event.type == pygame.KEYDOWN : 
-                if event.key == pygame.K_BACKQUOTE:
-                    comm = False
-                if event.unicode != "" :
-                    if event.key == pygame.K_RETURN :
-                        if string[:3] == "set" :
-                            string = string.lstrip()
-                            try : exec(string[4:])
-                            except : print("Bad command")
-                        string = str()
-                    if event.unicode != '\r' and event.unicode != '`' :
-                        string += event.unicode 
-                        
-            if event.type == pygame.QUIT :
-                comm = False
-                pygame.quit()
-                raise SystemExit(0)
-        win.blit(command_console_screen, (0,0))
-        win.blit(font.render(string, True, 'blue'), ( 400,400 ))
-        pygame.display.flip()
-
-
-def pause() :
-    paused = True
-            
-    win.blit(pause_screen, (0,0))
-    while paused :
-        pygame.display.flip()
-        for event in pygame.event.get() :
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                paused = False
-            if event.type == pygame.QUIT :
-                paused = False
-                pygame.quit()
-                raise SystemExit(0)
 run = True
 
 Player1 = Entity("blue")
@@ -98,6 +53,8 @@ while run :
     win.fill((255,255,255))
     platform_group.draw(win)
     player_group.draw(win)
+    pygame.transform.scale(win , (1200,700))
+    hoho.blit( pygame.transform.scale(win , (hoho.get_width() , hoho.get_height())), (0,0))
     pygame.display.flip()
     for event in pygame.event.get() :
         
@@ -108,9 +65,9 @@ while run :
         
         if event.type == pygame.KEYDOWN  :
             if event.key == pygame.K_BACKQUOTE :
-                command_console()
+                command_console(hoho)
             if event.key == pygame.K_ESCAPE :
-                pause()
+                pause(hoho)
         if event.type == pygame.KEYDOWN and event.key == pygame.K_b :
             print("Player1",Player1.color)
             print(Player1.rect.topleft , Player1.position , Player1.velocity , Player1.acceleration , sep = "\t")

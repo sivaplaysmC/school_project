@@ -1,6 +1,53 @@
 import pygame
 from pygame import Vector2 as vec
+command_console_screen =  pygame.image.load(r"console.png").convert_alpha()
+pause_screen = pygame.image.load(r"pause_menu.png").convert_alpha()
+class border(pygame.Rect) :
+    def __init__(self , x , y , w , h ) :
+        pass
+def command_console(win) :
+    comm = True
+    string = str()
+            
+    font = pygame.font.Font(None, 50)
+    
+    while comm :
+        for event in pygame.event.get() :
+            if event.type == pygame.KEYDOWN : 
+                if event.key == pygame.K_BACKQUOTE:
+                    comm = False
+                if event.unicode != "" :
+                    if event.key == pygame.K_RETURN :
+                        if string[:3] == "set" :
+                            string = string.lstrip()
+                            try : exec(string[4:])
+                            except : print("Bad command")
+                        string = str()
+                    if event.unicode != '\r' and event.unicode != '`' :
+                        string += event.unicode 
+                        
+            if event.type == pygame.QUIT :
+                comm = False
+                pygame.quit()
+                raise SystemExit(0)
+        win.blit(pygame.transform.scale(command_console_screen, (win.get_width(), win.get_height() )), (0,0))
+        win.blit(font.render(string, True, 'black'), ( 600 ,win.get_height() / 2  ))
+        pygame.display.flip()
 
+
+def pause(win) :
+    paused = True
+            
+    win.blit(pygame.transform.scale(pause_screen, (win.get_width(), win.get_height() )), (0,0))
+    while paused :
+        pygame.display.flip()
+        for event in pygame.event.get() :
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                paused = False
+            if event.type == pygame.QUIT :
+                paused = False
+                pygame.quit()
+                raise SystemExit(0)
 class Platform(pygame.sprite.Sprite) :
     def __init__(self , x , y , w , h , color):
         super().__init__()
@@ -28,8 +75,8 @@ class Entity(pygame.sprite.Sprite) :
         self.jump_key = pygame.K_SPACE
 
         self.rect = self.image.get_rect()
-        self.rect.x = 500
-        self.rect.y = 500
+        self.rect.x = 226
+        self.rect.y = 470
         self.hitx , self.hity = list() , list()
 
         self.position = vec(500,500)
