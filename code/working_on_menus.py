@@ -15,6 +15,7 @@ from classes_and_funcs import Entity , Platform , command_console , pause
 
 
 
+
 Player1 = Entity("blue")
 Player1.name = "Player1"
 Player1.jump_key = pygame.K_UP
@@ -41,7 +42,8 @@ for i in rect_list :
 Player1.collidelist.add(Player2 , *platform_group.sprites())
 Player2.collidelist.add(Player1 , *platform_group.sprites())
 print(len(platform_group.sprites()))
-
+pause_clock= pygame.time.Clock()
+reduction = 0 
 
 run = True
 while run :
