@@ -1,0 +1,4 @@
+        self.delpos.x = self.velocity.x *dt + ((self.acceleration.x *0.5) * (dt * dt))
+        self.acceleration.x += self.velocity.x * -.75
+        self.velocity.x += self.acceleration.x * dt
+        self.rect.x += self.delpos.x
