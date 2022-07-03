@@ -1,4 +1,6 @@
 # import blitting_text
+
+
 import pygame
 from pygame.constants import RESIZABLE 
 from reading_json import rect_list
@@ -15,6 +17,7 @@ from classes_and_funcs import Entity , Platform , command_console , pause
 
 
 
+
 Player1 = Entity("blue")
 Player1.name = "Player1"
 Player1.jump_key = pygame.K_UP
@@ -25,16 +28,8 @@ Player2.move_right_key = pygame.K_d
 Player2.move_left_key = pygame.K_a
 Player2.jump_key = pygame.K_w
 Player2.other_player_name = "Player1"
-# border = border(-1280,0,1280*2,720)
-#platform1 = Platform(-1280,690,1280*5,30,(255,20,0))
-#platform2 = Platform(200, 600, 100, 50, (255,20,0))
-#platform3 = Platform(400, 500, 100, 50, (255,255,0))
-#platform4 = Platform(180, 500, 100, 50, (0,255,0))
-#platform5 = Platform(700, 600, 100, 50,(0,255,255))
-#platform6 = Platform(800, 600, 100, 50, 'cyan')
 player_group = pygame.sprite.Group()
 platform_group = pygame.sprite.Group()
-#platform_group.add(platform1,platform2,platform4,platform5 , platform6)
 player_group.add(Player1 , Player2)
 for i in rect_list :
     platform_group.add(Platform(i.x, i.y, i.w, i.h, "black"))
@@ -68,7 +63,7 @@ while run :
         
         if event.type == pygame.KEYDOWN  :
             if event.key == pygame.K_BACKQUOTE :
-                command_console(hoho)
+                command_console(hoho,Player1,Player2)
             if event.key == pygame.K_ESCAPE :
                 pause(hoho)
         if event.type == pygame.KEYDOWN and event.key == pygame.K_b :

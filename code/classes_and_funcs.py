@@ -5,7 +5,7 @@ pause_screen = pygame.image.load(r"pause_menu.png").convert_alpha()
 class border(pygame.Rect) :
     def __init__(self , x , y , w , h ) :
         pass
-def command_console(win) :
+def command_console(win , Player1 , Player2 ) :
     comm = True
     string = str()
             
