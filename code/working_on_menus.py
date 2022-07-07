@@ -1,6 +1,3 @@
-# import blitting_text
-
-
 import pygame
 from pygame.constants import RESIZABLE 
 from reading_json import rect_list
@@ -13,8 +10,6 @@ hoho = pygame.display.set_mode((1280,700) , RESIZABLE)
 win = pygame.Surface((WIDTH , HEIGHT))
 clock = pygame.time.Clock()
 from classes_and_funcs import Entity , Platform , command_console , pause
-
-
 
 
 
@@ -38,10 +33,12 @@ Player2.collidelist.add(Player1 , *platform_group.sprites())
 print(len(platform_group.sprites()))
 pause_clock= pygame.time.Clock()
 reduction = 0 
-
+pause_time = 0 
 run = True
 while run :
     dt = (clock.tick(60) /1000) * 60
+    dt = dt - pause_time
+    pause_time = 0 
     # Player1.debug()
 
     # pause()
@@ -65,8 +62,11 @@ while run :
             if event.key == pygame.K_BACKQUOTE :
                 command_console(hoho,Player1,Player2)
             if event.key == pygame.K_ESCAPE :
-                pause(hoho)
+                pause_time = pause(hoho)
+                print("pause_time = ",pause_time)
         if event.type == pygame.KEYDOWN and event.key == pygame.K_b :
+
+
             print("Player1",Player1.color)
             print(Player1.rect.topleft , Player1.position , Player1.velocity , Player1.acceleration , sep = "\t")
             print("Player2",Player2.color)

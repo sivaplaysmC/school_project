@@ -1,3 +1,4 @@
+from time import time as t 
 import pygame
 from pygame import Vector2 as vec
 command_console_screen =  pygame.image.load(r"console.png").convert_alpha()
@@ -36,6 +37,8 @@ def command_console(win , Player1 , Player2 ) :
 
 
 def pause(win) :
+    n = t()
+    print(n)
     paused = True
             
     win.blit(pygame.transform.scale(pause_screen, (win.get_width(), win.get_height() )), (0,0))
@@ -48,6 +51,10 @@ def pause(win) :
                 paused = False
                 pygame.quit()
                 raise SystemExit(0)
+    o = t()
+    print(o)
+    print(o - n)
+    return  o - n  
 class Platform(pygame.sprite.Sprite) :
     def __init__(self , x , y , w , h , color):
         super().__init__()
