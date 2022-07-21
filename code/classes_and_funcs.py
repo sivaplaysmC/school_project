@@ -80,7 +80,7 @@ class Entity(pygame.sprite.Sprite) :
         self.move_right_key = pygame.K_RIGHT
         self.move_left_key  = pygame.K_LEFT
         self.jump_key = pygame.K_SPACE
-
+        self.actions = {"left" : False , "right" : False, "jumping" = False}
         self.rect = self.image.get_rect()
         self.rect.x = 226
         self.rect.y = 470
