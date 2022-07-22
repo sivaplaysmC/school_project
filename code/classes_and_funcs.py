@@ -1,12 +1,12 @@
 from time import time as t 
 import pygame
 from pygame import Vector2 as vec
-command_console_screen =  pygame.image.load(r"console.png").convert_alpha()
-pause_screen = pygame.image.load(r"pause_menu.png").convert_alpha()
+
 class border(pygame.Rect) :
     def __init__(self , x , y , w , h ) :
         pass
 def command_console(win , Player1 , Player2 ) :
+    command_console_screen =  pygame.image.load(r"console.png").convert_alpha()
     comm = True
     string = str()
             
@@ -37,6 +37,7 @@ def command_console(win , Player1 , Player2 ) :
 
 
 def pause(win) :
+    pause_screen = pygame.image.load(r"pause_menu.png").convert_alpha()
     n = t()
     print(n)
     paused = True
@@ -80,7 +81,7 @@ class Entity(pygame.sprite.Sprite) :
         self.move_right_key = pygame.K_RIGHT
         self.move_left_key  = pygame.K_LEFT
         self.jump_key = pygame.K_SPACE
-        self.actions = {"left" : False , "right" : False, "jumping" = False}
+        self.actions = {"left" : False , "right" : False, "jumping" : False , "idle" : False}
         self.rect = self.image.get_rect()
         self.rect.x = 226
         self.rect.y = 470
@@ -101,9 +102,9 @@ class Entity(pygame.sprite.Sprite) :
         # self.delpos.x , self.delpos.y  = 0 , 0 
         keys = pygame.key.get_pressed()
         if keys[self.move_right_key] :
-            self.acceleration.x += 0.8
+            self.acceleration.x += 0.5
         if keys[self.move_left_key] :
-            self.acceleration.x -= 0.8
+            self.acceleration.x -= 0.5
         if keys[self.jump_key] and self.velocity.y == 0 :
             # print("colliderect")
             self.velocity.y -= 10

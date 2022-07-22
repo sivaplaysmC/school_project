@@ -37,6 +37,7 @@ pause_time = 0
 run = True
 while run :
     dt = (clock.tick(60) /1000) * 60
+    print((dt/60) * 1000 )
     dt = dt - pause_time
     pause_time = 0 
     # Player1.debug()

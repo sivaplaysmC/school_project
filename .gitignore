@@ -1,2 +1,5 @@
 
 code/__pycache__
+code/build/rewrite
+code/dist/rewrite
+code/rewrite.spec
