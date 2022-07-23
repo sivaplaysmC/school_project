@@ -36,18 +36,20 @@ class mini(GameState) :
         self.name = "mini"
         self.environment : "pygame.Surface" = self.Game.environment
     def update(self) :
-        pass
-class Game_world(GameState) :
-    def __init__(self, Game: "Game"):
-        super().__init__(Game)
-        self.name = "World"
-    def update(self) :
-        if self.Game.Player2.actions["right"] : self.Game.Player2.acceleration.x += 1
-        if self.Game.Player2.actions["right"] : self.Game.Player2.acceleration.x += 1
-        if self.Game.Player1.actions["left"] : self.Game.Player1.acceleration.x -= 1
-        if self.Game.Player1.actions["left"] : self.Game.Player1.acceleration.x -= 1
-        self.Game.environment.fill((255,255,255))
-        self.Game.Player1.move(self.Game.dt)
-        self.Game.Player2.move(self.Game.dt)
-        self.Game.players.draw(self.Game.environment)
-        self.Game.platforms.draw(self.Game.environment)
+        self.environment.fill("white")
+        self.Game.player.move(self.Game.dt)
+        self.environment.blit(self.Game.player.image , (self.Game.player.rect.x , self.Game.player.rect.y))
+# class Game_world(GameState) :
+#     def __init__(self, Game: "Game"):
+#         super().__init__(Game)
+#         self.name = "World"
+#     def update(self) :
+#         if self.Game.Player2.actions["right"] : self.Game.Player2.acceleration.x += 1
+#         if self.Game.Player2.actions["right"] : self.Game.Player2.acceleration.x += 1
+#         if self.Game.Player1.actions["left"] : self.Game.Player1.acceleration.x -= 1
+#         if self.Game.Player1.actions["left"] : self.Game.Player1.acceleration.x -= 1
+#         self.Game.environment.fill((255,255,255))
+#         self.Game.Player1.move(self.Game.dt)
+#         self.Game.Player2.move(self.Game.dt)
+#         self.Game.players.draw(self.Game.environment)
+#         self.Game.platforms.draw(self.Game.environment)
