@@ -1,8 +1,9 @@
 from time import time
 import pygame 
 from reading_json import rect_list
-from classes_and_funcs import Entity , Platform
-from gamestates import Main_menu, Pause_menu , Game_world
+# from classes_and_funcs import Entity , Platform
+from entity import Platform, Simple
+from gamestates import Game_world, Main_menu, Pause_menu, mini  
 
 
 class Stack:
@@ -22,96 +23,54 @@ class Res:
         self.x , self.y = args
 
 
-
 class Game:
-    def __init__(self , rect_list:pygame.sprite.Group) :
+    def __init__(self , rect_list:list) :
         self.game_state_stack = Stack()
         self.environment_surface_res = Res(1280,720)
         self.display_surface_res = Res(1408 , 736)
         self.environment =  pygame.Surface((self.environment_surface_res.x , self.environment_surface_res.y))
         self.display = pygame.display.set_mode((self.display_surface_res.x , self.display_surface_res.y))
         self.clock = pygame.time.Clock()
-        self.Player1 = Entity("blue")
-        self.Player1.name = "Player1"
-
-        self.Player1.jump_key = pygame.K_UP
-        self.Player1.other_player_name = "Player2"
-        self.Player2 = Entity("red")
-        self.Player2.name = "Player2"
-        self.Player2.move_right_key = pygame.K_d
-        self.Player2.move_left_key = pygame.K_a
-        self.Player2.jump_key = pygame.K_w
-        self.Player2.other_player_name = "Player1"
-        self.players = pygame.sprite.Group()
-        self.platforms = pygame.sprite.Group()
-        self.players.add(self.Player1 , self.Player2)
-        self.rect_list = rect_list
-        for i in self.rect_list :
-            self.platforms.add(Platform(i.x, i.y, i.w, i.h, "black"))
-        self.Player1.collidelist.add(self.Player2 , *self.platforms.sprites())
-        self.Player2.collidelist.add(self.Player1 , *self.platforms.sprites())
+        self.player = Simple("red" , (500,500))
         self.dt = 0 
         self.prev = 0 
+        
 
         self.running = True
-        self.game_state_stack.add(Game_world(self))
+        # self.game_state_stack.add(mini(self))
+        self.game_state_stack.add(Main_menu(self))
     def dt_clock(self) :
         self.now = time()
         self.dt =  self.now - self.prev
         self.prev = self.now
-        print(self.dt)
     def get_input(self) :
-        for event in pygame.event.get() :
-            if event.type == pygame.QUIT :
+        for self.event in pygame.event.get() :
+            if self.event.type == pygame.QUIT :
                 self.running = False
-                print("hi")
             
-            if event.type == pygame.KEYDOWN :
-                if event.key == pygame.K_RETURN :
-                    if self.game_state_stack.peek().name == "Menu" :
-                        self.game_state_stack.add(Game_world(self))
-                if event.key == pygame.K_ESCAPE :
+            if self.event.type == pygame.KEYDOWN :
+                if self.event.key == pygame.K_RETURN :
+                    if self.game_state_stack.peek().name == "Main" :
+                        self.game_state_stack.add(mini(self))
+                if self.event.key == pygame.K_ESCAPE :
                     if self.game_state_stack.peek().name != "Pause" :
                         self.game_state_stack.add(Pause_menu(self))
                     else :
                         self.game_state_stack.pop()
-                if event.key == self.Player1.move_left_key :
-                    self.Player1.actions["left"] = True
-                    self.Player1.actions["idle"] = False
-                elif event.key == self.Player1.move_left_key :
-                    self.Player1.actions["right"] = True
-                    self.Player1.actions["idle"] = False
-                elif event.key == self.Player1.jump_key :
-                    self.Player1.actions["left"] = True
-                    self.Player1.actions["idle"] = False
-                elif event.key == self.Player2.move_left_key :
-                    self.Player1.actions["left"] = True
-                    self.Player2.actions["idle"] = False
-                elif event.key == self.Player2.move_left_key :
-                    self.Player1.actions["right"] = True
-                    self.Player2.actions["idle"] = False
-                elif event.key == self.Player2.jump_key :
-                    self.Player1.actions["left"] = True
-                    self.Player2.actions["idle"] = False
-            if event.type == pygame.KEYUP :
-                if event.key == self.Player1.move_left_key :
-                    self.Player1.actions["left"] = False
-                    self.Player1.actions["idle"] = True
-                elif event.key == self.Player1.move_left_key :
-                    self.Player1.actions["right"] = False
-                    self.Player1.actions["idle"] = True
-                elif event.key == self.Player1.jump_key :
-                    self.Player1.actions["left"] = False
-                    self.Player1.actions["idle"] = True
-                elif event.key == self.Player2.move_left_key :
-                    self.Player1.actions["left"] = False
-                    self.Player2.actions["idle"] = True
-                elif event.key == self.Player2.move_left_key :
-                    self.Player1.actions["right"] = False
-                    self.Player2.actions["idle"] = True
-                elif event.key == self.Player2.jump_key :
-                    self.Player1.actions["left"] = False
-                    self.Player2.actions["idle"] = True
+                if self.event.key == pygame.K_RIGHT :
+                    self.player.actions["right"] = True
+
+                if self.event.key == pygame.K_UP :
+                    self.player.actions["up"] = True
+                if self.event.key == pygame.K_LEFT :
+                    self.player.actions["left"] = True
+            if self.event.type == pygame.KEYUP :
+                if self.event.key == pygame.K_RIGHT :
+                    self.player.actions["right"] = False
+                if self.event.key == pygame.K_LEFT :
+                    self.player.actions["left"] = False
+                if self.event.key == pygame.K_UP :
+                    self.player.actions["up"] = False
     def update(self) :
         self.game_state_stack.peek().update() 
 
@@ -125,10 +84,10 @@ class Game:
             self.get_input()
             self.update()
             self.draw()
-            print( self.dt ,self.fps, sep = "\t\t\t\t")
 
 
 game = Game(rect_list)
+
 game.mainloop()
 # g = Game()
 

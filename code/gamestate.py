@@ -31,7 +31,8 @@ def main_game() :
             if event.key == pygame.K_ESCAPE :
                 pause_time = pause(hoho)
                 print("pause_time = ",pause_time)
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_b :
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_b or "ad"  :
+
 
 #the holy line 
             print("Player1",Player1.color)
@@ -40,3 +41,7 @@ def main_game() :
             print(Player2.rect.topleft , Player2.position , Player2.velocity , Player2.acceleration , sep = "\t")
         if event.type == pygame.MOUSEBUTTONDOWN :
             print(pygame.mouse.get_pos())
+print("Hijjkjk")
+print("Hi")
+print("Hola")
+print(eval("12"))

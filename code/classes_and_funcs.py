@@ -114,8 +114,8 @@ class Entity(pygame.sprite.Sprite) :
         #         self.velocity.y -= 9
 
     def horizontal_movement(self,dt) :
-        if self.velocity.x > 1.6 :
-            self.velocity.x = 1.6
+        # if self.velocity.x > 1.6 :
+        #     self.velocity.x = 1.6
         self.acceleration.x += self.velocity.x * -.50
         self.velocity.x += self.acceleration.x * dt
         self.delpos.x = self.velocity.x *dt + ((self.acceleration.x *0.5) * (dt * dt))
