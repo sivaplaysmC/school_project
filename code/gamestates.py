@@ -1,5 +1,5 @@
 import pygame
-from entity import Platform
+from entity import Entity, Platform
 # from pygame.display import update
 
 class GameState :
@@ -50,13 +50,38 @@ class mini(GameState) :
         self.environment.blit(self.Game.player.image , (self.Game.player.rect.x , self.Game.player.rect.y))
 
 class basic(GameState):
+    vec = pygame.Vector2
     def __init__(self , Game) :
         super().__init__(Game)
         self.name = "basic"
         self.environment : "pygame.Surface" = self.Game.environment
+        self.player = Entity("blue")
+        self.player.name = "Player1"
+        self.player.jump_key = pygame.K_UP
+        self.other_player_name = "Player2"
 
 
 
+        self.all_objects =pygame.sprite.Group()
+        self.players = pygame.sprite.Group()
+        self.platforms = pygame.sprite.Group()
+
+        
+        self.players.add(self.player)
+        for i in self.Game.rect_list :
+            self.platforms.add(Platform(i.x , i.y  , i.w , i.h ,"black"))
+
+        self.player.collidelist.add(*self.platforms.sprites())
+        
+    def update(self) :
+        self.environment.fill("white")
+        self.player.move(self.Game.dt)
+        for i in self.platforms :
+            self.environment.blit(i.image , (i.rect.x , i.rect.y))
+        self.environment.blit(self.player.image , (self.player.rect.x , self.player.rect.y))
+
+
+            
 class Game_world(GameState) :
     def __init__(self, Game: "Game"):
         super().__init__(Game)

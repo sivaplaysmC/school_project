@@ -3,7 +3,7 @@ import pygame
 from reading_json import rect_list
 # from classes_and_funcs import Entity , Platform
 from entity import Platform, Simple
-from gamestates import Game_world, Main_menu, Pause_menu, mini  
+from gamestates import Game_world, Main_menu, Pause_menu, basic, mini  
 
 
 class Stack:
@@ -34,6 +34,7 @@ class Game:
         self.player = Simple("red" , (500,500))
         self.dt = 0 
         self.prev = 0 
+        self.rect_list = rect_list
         
 
         self.running = True
@@ -51,7 +52,7 @@ class Game:
             if self.event.type == pygame.KEYDOWN :
                 if self.event.key == pygame.K_RETURN :
                     if self.game_state_stack.peek().name == "Main" :
-                        self.game_state_stack.add(mini(self))
+                        self.game_state_stack.add(basic(self))
                 if self.event.key == pygame.K_ESCAPE :
                     if self.game_state_stack.peek().name != "Pause" :
                         self.game_state_stack.add(Pause_menu(self))

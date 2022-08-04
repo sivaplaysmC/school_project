@@ -103,6 +103,7 @@ class Simple (pygame.sprite.Sprite) :
 class Entity(pygame.sprite.Sprite) :
     def __init__(self , color):
         super().__init__()
+        vec = pygame.Vector2
         self.color = color
         self.image = pygame.Surface((30,30))
         self.image.fill(self.color)
