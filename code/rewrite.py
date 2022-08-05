@@ -2,8 +2,8 @@ from time import time
 import pygame 
 from reading_json import rect_list
 # from classes_and_funcs import Entity , Platform
-from entity import Platform, Simple
-from gamestates import Game_world, Main_menu, Pause_menu, basic, mini  
+from entity import Platform,  Entity
+from gamestates import Main_menu, Pause_menu, basic 
 
 
 class Stack:
@@ -31,11 +31,27 @@ class Game:
         self.environment =  pygame.Surface((self.environment_surface_res.x , self.environment_surface_res.y))
         self.display = pygame.display.set_mode((self.display_surface_res.x , self.display_surface_res.y))
         self.clock = pygame.time.Clock()
-        self.player = Simple("red" , (500,500))
         self.dt = 0 
         self.prev = 0 
         self.rect_list = rect_list
         
+        self.player = Entity("blue")
+        self.player.name = "Player1"
+        self.player.jump_key = pygame.K_UP
+        self.other_player_name = "Player2"
+
+
+
+        self.all_objects =pygame.sprite.Group()
+        self.players = pygame.sprite.Group()
+        self.platforms = pygame.sprite.Group()
+
+        
+        self.players.add(self.player)
+        for i in self.rect_list :
+            self.platforms.add(Platform(i.x , i.y  , i.w , i.h ,"black"))
+
+        self.player.collidelist.add(*self.platforms.sprites())
 
         self.running = True
         # self.game_state_stack.add(mini(self))
