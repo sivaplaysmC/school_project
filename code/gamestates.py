@@ -36,23 +36,6 @@ class basic(GameState):
         super().__init__(Game)
         self.name = "basic"
         self.environment : "pygame.Surface" = self.Game.environment
-        # self.player = Entity("blue")
-        # self.player.name = "Player1"
-        # self.player.jump_key = pygame.K_UP
-        # self.other_player_name = "Player2"
-        #
-        #
-        #
-        # self.all_objects =pygame.sprite.Group()
-        # self.players = pygame.sprite.Group()
-        # self.platforms = pygame.sprite.Group()
-        #
-        # 
-        # self.players.add(self.player)
-        # for i in self.Game.rect_list :
-        #     self.platforms.add(Platform(i.x , i.y  , i.w , i.h ,"black"))
-        #
-        # self.player.collidelist.add(*self.platforms.sprites())
         
     def update(self) :
         self.environment.fill("white")
