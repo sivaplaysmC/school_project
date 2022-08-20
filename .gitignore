@@ -3,3 +3,5 @@ code/__pycache__
 code/build/rewrite
 code/dist/rewrite
 code/rewrite.spec
+code/networking/__pycache__
+code/networking/straight_server/__pycache__

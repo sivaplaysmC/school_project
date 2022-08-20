@@ -27,8 +27,18 @@ class Main_menu(GameState) :
         self.name = "Main"
         self.environment : "pygame.Surface" = self.Game.environment
     def update(self) :
-        self.Game.environment.fill((100,100,100))
+        self.environment.fill((100,100,100))
+        
 
+class client_basic(GameState):
+    def __init__(self, Game):
+        super().__init__(Game)
+        self.name = "Clie"
+        self.environment = self.Game.environment
+    def update(self) : 
+        self.environment.fill("white")
+        for _ in self.Game.drawables : 
+            self.environment.blit( _.image , (_.rect.x , _.rect.y))
 
 class basic(GameState):
     vec = pygame.Vector2

@@ -1,5 +1,6 @@
 # from ctypes import sizeof
 from utils import Res , Stack
+from sys import getsizeof
 from time import time
 import pygame 
 from reading_json import rect_list
@@ -11,9 +12,8 @@ from gamestates import Main_menu, Pause_menu, basic
 class Game:
     def __init__(self , rect_list:list) :
         self.game_state_stack = Stack()
-        self.environment_surface_res = Res(1408 , 736)
+        self.environment_surface_res = Res(1280,720)
         self.display_surface_res = Res(1408 , 736)
-        # self.screen = pygame
         self.environment =  pygame.Surface((self.environment_surface_res.x , self.environment_surface_res.y))
         self.display = pygame.display.set_mode((self.display_surface_res.x , self.display_surface_res.y) , pygame.RESIZABLE)
         self.clock = pygame.time.Clock()
@@ -21,7 +21,7 @@ class Game:
         self.prev = 0 
         self.rect_list = rect_list
         
-        self.player = Entity("blue" )
+        self.player = Entity("blue")
         self.player.name = "Player1"
         self.player.jump_key = pygame.K_UP
         self.other_player_name = "Player2"
@@ -67,8 +67,6 @@ class Game:
                     self.player.actions["up"] = True
                 if self.event.key == pygame.K_LEFT :
                     self.player.actions["left"] = True
-                if self.event.key == pygame.K_SPACE :
-                    self.player.actions["punch" ]= True
             if self.event.type == pygame.KEYUP :
                 if self.event.key == pygame.K_RIGHT :
                     self.player.actions["right"] = False
@@ -76,10 +74,9 @@ class Game:
                     self.player.actions["left"] = False
                 if self.event.key == pygame.K_UP :
                     self.player.actions["up"] = False
-                if self.event.key == pygame.K_SPACE :
-                    self.player.actions["punch" ]= False
     def update(self) :
         self.game_state_stack.peek().update() 
+
 
     def draw(self) :
         self.display.blit(pygame.transform.scale(self.environment , (self.display.get_width() , self.display.get_height())) , (0,0) )
@@ -92,8 +89,10 @@ class Game:
             self.update()
             self.draw()
 
-
 if __name__ == "__main__":
     game = Game(rect_list)
     game.mainloop()
-    print(game.all_objects)
+    print(getsizeof(game))
+    # print(sizeof(game.player.actions))
+
+
