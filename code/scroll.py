@@ -1,3 +1,4 @@
+
 # from ctypes import sizeof
 from utils import Res , Stack
 from time import time
@@ -13,7 +14,6 @@ class Game:
         self.game_state_stack = Stack()
         self.environment_surface_res = Res(1408 , 736)
         self.display_surface_res = Res(1408 , 736)
-        # self.screen = pygame
         self.environment =  pygame.Surface((self.environment_surface_res.x , self.environment_surface_res.y))
         self.display = pygame.display.set_mode((self.display_surface_res.x , self.display_surface_res.y) , pygame.RESIZABLE)
         self.clock = pygame.time.Clock()
@@ -21,23 +21,29 @@ class Game:
         self.prev = 0 
         self.rect_list = rect_list
         
-        self.player = Entity(self , "blue" )
-        self.player.name = "Player1"
-        self.player.jump_key = pygame.K_UP
+        self.player1 = Entity(self , "blue" )
+        self.player1.name = "Player1"
+        self.player1.jump_key = pygame.K_UP
         self.other_player_name = "Player2"
 
 
+        self.player2 = Entity(self , "red" )
+        self.player2.name = "Player1"
+        self.player2.move_left_key = pygame.K_a
+        self.player2.move_right_key = pygame.K_d
+        self.player2.jump_key = pygame.K_SPACE 
+        self.other_player_name = "Player2"
 
         self.all_objects =pygame.sprite.Group()
         self.players = pygame.sprite.Group()
         self.platforms = pygame.sprite.Group()
 
         
-        self.players.add(self.player)
+        self.players.add(self.player1)
         for i in self.rect_list :
             self.platforms.add(Platform(i.x , i.y  , i.w , i.h ,"black"))
 
-        self.player.collidelist.add(*self.platforms.sprites())
+        self.player1.collidelist.add(*self.platforms.sprites())
 
         self.running = True
         # self.game_state_stack.add(mini(self))
@@ -60,24 +66,47 @@ class Game:
                         self.game_state_stack.add(Pause_menu(self))
                     else :
                         self.game_state_stack.pop()
-                if self.event.key == pygame.K_RIGHT :
-                    self.player.actions["right"] = True
+                if self.event.key == self.player1.move_right_key :
+                    self.player1.actions["right"] = True
 
-                if self.event.key == pygame.K_UP :
-                    self.player.actions["up"] = True
-                if self.event.key == pygame.K_LEFT :
-                    self.player.actions["left"] = True
-                if self.event.key == pygame.K_SPACE :
-                    self.player.actions["punch" ]= True
+                if self.event.key == self.player1.jump_key :
+                    self.player1.actions["up"] = True
+                if self.event.key == self.player1.move_left_key:
+                    self.player1.actions["left"] = True
+                if self.event.key == pygame.K_INSERT :
+                    self.player1.actions["punch" ]= True
+            
+
+                if self.event.key == self.player2.move_right_key :
+                    self.player1.actions["right"] = True
+                if self.event.key == self.player2.jump_key :
+                    self.player1.actions["up"] = True
+                if self.event.key == self.player2.move_left_key:
+                    self.player1.actions["left"] = True
+                if self.event.key == pygame.K_INSERT :
+                    self.player1.actions["punch" ]= True
+
+            
             if self.event.type == pygame.KEYUP :
-                if self.event.key == pygame.K_RIGHT :
-                    self.player.actions["right"] = False
-                if self.event.key == pygame.K_LEFT :
-                    self.player.actions["left"] = False
-                if self.event.key == pygame.K_UP :
-                    self.player.actions["up"] = False
+                if self.event.key == self.player1.move_right_key :
+                    self.player1.actions["right"] = False
+                if self.event.key == self.player1.move_left_key:
+                    self.player1.actions["left"] = False
+                if self.event.key == self.player1.jump_key :
+                    self.player1.actions["up"] = False
                 if self.event.key == pygame.K_SPACE :
-                    self.player.actions["punch" ]= False
+                    self.player1.actions["punch" ]= False
+
+                if self.event.key == self.player2.move_right_key :
+                    self.player1.actions["right"] = False
+                if self.event.key == self.player2.move_left_key:
+                    self.player1.actions["left"] = False
+                if self.event.key == self.player2.jump_key :
+                    self.player1.actions["up"] = False
+                if self.event.key == pygame.K_SPACE :
+                    self.player1.actions["punch" ]= False
+
+    
     def update(self) :
         self.game_state_stack.peek().update() 
 

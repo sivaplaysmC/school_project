@@ -49,10 +49,13 @@ class basic(GameState):
         
     def update(self) :
         self.environment.fill("white")
-        self.Game.player.move(self.Game.dt)
+        self.Game.player1.move(self.Game.dt)
+        self.Game.player2.move(self.Game.dt)
+        
         for i in self.Game.platforms :
             self.environment.blit(i.image , (i.rect.x , i.rect.y))
-        self.environment.blit(self.Game.player.image , (self.Game.player.rect.x , self.Game.player.rect.y))
+        self.environment.blit(self.Game.player1.image , (self.Game.player1.rect.x , self.Game.player1.rect.y))
+        self.environment.blit(self.Game.player2.image , (self.Game.player2.rect.x , self.Game.player2.rect.y))
 
 
             

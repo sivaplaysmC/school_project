@@ -213,7 +213,7 @@ class Entity(pygame.sprite.Sprite) :
 
 class GEntity(pygame.sprite.Sprite) :
     """ Base Entity Class for Players """
-    def __init__(self ,Game, color ):
+    def __init__(self , color ):
         super().__init__()
         vec = pygame.Vector2
         self.color = color
@@ -243,7 +243,7 @@ class GEntity(pygame.sprite.Sprite) :
         # self.mass = 1
         self.max_acceleration = 4
         self.mul = 0
-        self.Game = Game
+        # self.Game = Game
 
     # def punch(self) :
     #     print("Hola")

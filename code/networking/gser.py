@@ -6,10 +6,6 @@ from por import p
 
 
 
-def on_connect(c: socket.socket) : 
-    g.player1 = c.recv(2048)
-
-
 
 class Game():
     """docstring for Game."""
@@ -17,7 +13,7 @@ class Game():
         super(Game, self).__init__()
 
         ##NETWOEKING
-        self.s = socket.socket(socket.AF_INET , socket.SOCK_STREAM)
+        self.s = socket.socket(socket.AF_INET , socket.SOCK_DGRAM)
 
         self.s.bind(('localhost' , p) )
         self.s.listen( )
