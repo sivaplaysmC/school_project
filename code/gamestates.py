@@ -5,7 +5,7 @@ class GameState :
         self.color = "blue"
         self.Game = Game
         # self.win = self.game.environment
-        self.environment : "pygame.Surface" = self.Game.environment
+        self.environment : pygame.Surface = self.Game.environment
     def main(self):
         self.environment.fill(self.color)
 
@@ -14,7 +14,7 @@ class Pause_menu(GameState):
     def __init__(self , Game):
         super().__init__(Game)
         self.name = "Pause"
-        self.environment : "pygame.Surface" = self.Game.environment
+        self.environment : pygame.Surface = self.Game.environment
 
     def update(self) :
         self.Game.environment.fill("white")
@@ -25,7 +25,7 @@ class Main_menu(GameState) :
     def __init__(self, Game):
         super().__init__(Game)
         self.name = "Main"
-        self.environment : "pygame.Surface" = self.Game.environment
+        self.environment : pygame.Surface = self.Game.environment
     def update(self) :
         self.environment.fill((100,100,100))
         
@@ -45,7 +45,7 @@ class basic(GameState):
     def __init__(self , Game) :
         super().__init__(Game)
         self.name = "basic"
-        self.environment : "pygame.Surface" = self.Game.environment
+        self.environment : pygame.Surface = self.Game.environment
         
     def update(self) :
         self.environment.fill("white")
