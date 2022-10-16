@@ -1,0 +1,33 @@
+{ "columns":19,
+ "image":"tiles\/Sprites\/14-TileSets\/Terrain (32x32).png",
+ "imageheight":416,
+ "imagewidth":608,
+ "margin":0,
+ "name":"Terrain (32x32)",
+ "spacing":0,
+ "tilecount":247,
+ "tiledversion":"1.9.2",
+ "tileheight":32,
+ "tiles":[
+        {
+         "id":20,
+         "properties":[
+                {
+                 "name":"name",
+                 "type":"string",
+                 "value":""
+                }]
+        }, 
+        {
+         "id":154,
+         "properties":[
+                {
+                 "name":"type",
+                 "type":"string",
+                 "value":"killer"
+                }]
+        }],
+ "tilewidth":32,
+ "type":"tileset",
+ "version":"1.9"
+}
