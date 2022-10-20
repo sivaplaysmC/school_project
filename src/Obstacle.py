@@ -4,10 +4,9 @@ from Player import Player
 # from Game import Game
 
 class Obstacle :
-    def __init__(self , x , y , w ,h , type = "H" ):
+    def __init__(self , x , y , w ,h ):
         self.x , self.y , self.w , self.h = x ,y , w  , h
         self.rect = Rect(x , y , w , h)
-        self.type = type
 
     def apply_effects(self ,game) :
         pass
@@ -49,3 +48,8 @@ class WinBlock(Obstacle) :
     def apply_effects(self,game):
         super().apply_effects(game)
         game.victory = True
+
+class Coin(Obstacle) :
+    def __init__(self, x, y, w, h, image ):
+        super().__init__(x, y, w, h,)
+        self.image = image
